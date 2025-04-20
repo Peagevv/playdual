@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PLAY DUAL - Strategic Simulation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-accent: #3A86FF;
+      --secondary-accent: #8338EC;
+      --dark-bg: #1A1A2E;
+      --light-bg: #F8F9FA;
+      --card-bg: #FFFFFF;
+      --text-dark: #2D3748;
+      --text-medium: #4A5568;
+      --text-light: #718096;
+      --border-radius: 12px;
+      --box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    body, html {
+      height: 100%;
+      overflow: hidden;
+      scroll-behavior: smooth;
+    }
+
+    /* Pantalla de bienvenida */
+    .welcome-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: var(--dark-bg);
+      color: white;
+      z-index: 1000;
+      opacity: 1;
+      transition: opacity 1.5s ease-out;
+    }
+
+    .welcome-content {
+      text-align: center;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .welcome-logo {
+      width: 180px;
+      height: auto;
+      margin-bottom: 30px;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    .welcome-title {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 1rem;
+      letter-spacing: 3px;
+      background: linear-gradient(to right, var(--primary-accent), var(--secondary-accent));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .welcome-screen.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Contenido principal */
+    .main-content {
+      opacity: 0;
+      transition: opacity 1s ease-in;
+      height: 100%;
+    }
+
+    .main-content.show {
+      opacity: 1;
+    }
+
+    /* Navbar profesional */
+    .navbar {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.98);
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      padding: 18px 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .navbar a {
+      text-decoration: none;
+      color: var(--text-medium);
+      font-weight: 500;
+      padding: 8px 20px;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
+    }
+
+    .navbar a:hover {
+      color: var(--primary-accent);
+    }
+
+    .navbar .active {
+      color: white;
+      background: linear-gradient(135deg, var(--primary-accent), var(--secondary-accent));
+      box-shadow: 0 4px 12px rgba(58, 134, 255, 0.25);
+    }
+
+    .navbar .login-btn {
+      background: linear-gradient(135deg, var(--primary-accent), var(--secondary-accent));
+      color: white;
+    }
+
+    .navbar .register-btn {
+      background: linear-gradient(135deg, #4CC9F0, #4361EE);
+      color: white;
+    }
+
+    .navbar .logout-btn {
+      background: linear-gradient(135deg, #FF5A5F, #F72585);
+      color: white;
+    }
+
+    /* Layout principal */
+    .container {
+      display: flex;
+      height: 100vh;
+    }
+
+    /* Sección izquierda con imagen */
+    .left {
+      flex: 1;
+      background-image: url('Captura de pantalla 2025-04-19 205834.png');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .left::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(26,26,46,0.85), rgba(58,134,255,0.15));
+    }
+
+    /* Sección derecha con contenido */
+    .right {
+      flex: 1;
+      background: var(--light-bg);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 40px;
+    }
+
+    .right h1 {
+      font-size: 2.5rem;
+      color: var(--text-dark);
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(to right, var(--primary-accent), var(--secondary-accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .right p {
+      font-size: 1.1rem;
+      color: var(--text-medium);
+      margin-bottom: 2.5rem;
+      max-width: 500px;
+      line-height: 1.8;
+    }
+
+    /* Botón principal */
+    .btn {
+      background: linear-gradient(135deg, var(--primary-accent), var(--secondary-accent));
+      padding: 15px 40px;
+      border: none;
+      border-radius: 30px;
+      text-decoration: none;
+      color: white;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: var(--transition);
+      box-shadow: var(--box-shadow);
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    }
+
+    /* Responsive design */
+    @media (max-width: 1024px) {
+      .right {
+        padding: 3rem;
+      }
+      
+      .right h1 {
+        font-size: 2.2rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+      
+      .left {
+        height: 40vh;
+      }
+      
+      .right {
+        padding: 2.5rem 2rem;
+      }
+      
+      .welcome-title {
+        font-size: 2rem;
+      }
+      
+      .navbar {
+        padding: 15px 0;
+        gap: 5px;
+        justify-content: space-around;
+      }
+
+      .navbar a {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .right {
+        padding: 2rem 1.5rem;
+      }
+      
+      .right h1 {
+        font-size: 1.8rem;
+      }
+      
+      .right p {
+        font-size: 1rem;
+      }
+      
+      .btn {
+        padding: 12px 30px;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Pantalla de bienvenida -->
+  <div class="welcome-screen" id="welcomeScreen">
+    <div class="welcome-content">
+      <img src="logo.png" alt="Play Dual Logo" class="welcome-logo">
+      <h1 class="welcome-title">PLAY DUAL</h1>
+    </div>
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="main-content" id="mainContent">
+    <nav class="navbar">
+      <a href="index.html" class="active">HOME</a>
+      <a href="about.html">ABOUT</a>
+      <a href="profile.html" id="profileLink" style="display:none;">PROFILE</a>
+      <a href="game.html">PLAY</a>
+      <a href="login.html" id="loginLink" class="login-btn">LOGIN</a>
+      <a href="register.html" id="registerLink" class="register-btn">REGISTER</a>
+      <a href="#" id="logoutLink" class="logout-btn" style="display:none;">LOGOUT</a>
+    </nav>
+
+    <div class="container">
+      <div class="left"></div>
+      <div class="right">
+        <h1>Strategic Simulation Environment</h1>
+        <p>Select "PLAY" to start a new strategic simulation or access your training profile to track your progress and achievements.</p>
+        <a href="game.html" class="btn">NEW GAME</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const welcomeScreen = document.getElementById('welcomeScreen');
+      const mainContent = document.getElementById('mainContent');
+      
+      // Verificar estado de autenticación
+      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+      const profileLink = document.getElementById('profileLink');
+      const loginLink = document.getElementById('loginLink');
+      const registerLink = document.getElementById('registerLink');
+      const logoutLink = document.getElementById('logoutLink');
+      
+      // Mostrar/ocultar elementos según autenticación
+      if (isLoggedIn) {
+        profileLink.style.display = 'block';
+        loginLink.style.display = 'none';
+        registerLink.style.display = 'none';
+        logoutLink.style.display = 'block';
+      }
+      
+      // Manejar logout
+      logoutLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        localStorage.removeItem('isLoggedIn');
+        window.location.href = 'index.html';
+      });
+
+      // Animación de pantalla de bienvenida
+      setTimeout(() => {
+        welcomeScreen.classList.add('fade-out');
+        
+        setTimeout(() => {
+          mainContent.classList.add('show');
+        }, 1000);
+        
+        setTimeout(() => {
+          welcomeScreen.remove();
+          document.body.style.overflow = 'auto';
+        }, 2500);
+      }, 3000);
+    });
+  </script>
+</body>
+</html>

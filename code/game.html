@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Game | PLAY DUAL</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-accent: #3A86FF;
+      --secondary-accent: #8338EC;
+      --dark-bg: #1A1A2E;
+      --light-bg: #F8F9FA;
+      --card-bg: #FFFFFF;
+      --text-dark: #2D3748;
+      --text-medium: #4A5568;
+      --text-light: #718096;
+      --border-radius: 12px;
+      --box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    body, html {
+      height: 100%;
+    }
+
+    /* Navbar profesional */
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.98);
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      padding: 18px 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .navbar a {
+      text-decoration: none;
+      color: var(--text-medium);
+      font-weight: 500;
+      padding: 8px 20px;
+      border-radius: var(--border-radius);
+      transition: var(--transition);
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
+    }
+
+    .navbar a:hover {
+      color: var(--primary-accent);
+    }
+
+    .navbar .active {
+      color: white;
+      background: linear-gradient(135deg, var(--primary-accent), var(--secondary-accent));
+      box-shadow: 0 4px 12px rgba(58, 134, 255, 0.25);
+    }
+
+    .navbar .logout-btn {
+      background: linear-gradient(135deg, #FF5A5F, #F72585);
+      color: white;
+    }
+
+    .game-container {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 100px 20px 20px;
+      background: var(--light-bg);
+    }
+
+    .game-container h1 {
+      font-size: 2.5rem;
+      color: var(--text-dark);
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(to right, var(--primary-accent), var(--secondary-accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .game-container p {
+      font-size: 1.1rem;
+      color: var(--text-medium);
+      margin-bottom: 3rem;
+      max-width: 600px;
+      line-height: 1.8;
+    }
+
+    .game-options {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+      max-width: 900px;
+    }
+
+    .game-option {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 2rem;
+      width: 280px;
+      transition: var(--transition);
+      cursor: pointer;
+      box-shadow: var(--box-shadow);
+      border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .game-option:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+    }
+
+    .game-option h3 {
+      font-size: 1.5rem;
+      color: var(--primary-accent);
+      margin-bottom: 1rem;
+    }
+
+    .game-option p {
+      font-size: 0.95rem;
+      color: var(--text-light);
+      margin-bottom: 0;
+    }
+
+    @media (max-width: 768px) {
+      .game-container {
+        padding: 90px 20px 20px;
+      }
+      
+      .game-container h1 {
+        font-size: 2rem;
+      }
+      
+      .game-options {
+        flex-direction: column;
+        gap: 20px;
+      }
+      
+      .game-option {
+        width: 100%;
+        max-width: 350px;
+      }
+      
+      .navbar {
+        padding: 15px 0;
+        gap: 5px;
+        justify-content: space-around;
+      }
+
+      .navbar a {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="index.html">HOME</a>
+    <a href="about.html">ABOUT</a>
+    <a href="profile.html" id="profileLink" style="display:none;">PROFILE</a>
+    <a href="game.html" class="active">PLAY</a>
+    <a href="#" id="logoutLink" class="logout-btn">LOGOUT</a>
+  </nav>
+
+  <div class="game-container">
+    <h1>Strategic Simulation Environment</h1>
+    <p>Select an option to begin your strategic training session</p>
+    
+    <div class="game-options">
+      <div class="game-option" onclick="startGame('continue')">
+        <h3>CONTINUE</h3>
+        <p>Resume your last simulation</p>
+      </div>
+      <div class="game-option" onclick="startGame('new')">
+        <h3>NEW GAME</h3>
+        <p>Start a fresh simulation</p>
+      </div>
+      <div class="game-option" onclick="startGame('challenge')">
+        <h3>CHALLENGE</h3>
+        <p>Test your skills with special scenarios</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Verificar autenticación al cargar
+    document.addEventListener('DOMContentLoaded', function() {
+      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+      const profileLink = document.getElementById('profileLink');
+      const logoutLink = document.getElementById('logoutLink');
+      
+      if (isLoggedIn) {
+        profileLink.style.display = 'block';
+      } else {
+        window.location.href = 'login.html';
+      }
+      
+      // Manejar logout
+      logoutLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        localStorage.removeItem('isLoggedIn');
+        window.location.href = 'index.html';
+      });
+    });
+
+    function startGame(mode) {
+      // Lógica para iniciar el juego según el modo seleccionado
+      alert(`Starting game in ${mode} mode`);
+      // window.location.href = `game-${mode}.html`;
+    }
+  </script>
+</body>
+</html>

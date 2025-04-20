@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Profile | PLAY DUAL</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-accent: #3A86FF;
+      --secondary-accent: #8338EC;
+      --dark-bg: #1A1A2E;
+      --light-bg: #F8F9FA;
+      --card-bg: #FFFFFF;
+      --text-dark: #2D3748;
+      --text-medium: #4A5568;
+      --text-light: #718096;
+      --border-radius: 12px;
+      --box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    body, html {
+      height: 100%;
+    }
+
+    .container {
+      display: flex;
+      height: 100vh;
+    }
+
+    .left {
+      flex: 1;
+      background-image: url('profile-bg.jpg');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+
+    .left::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(26,26,46,0.85), rgba(58,134,255,0.15));
+    }
+
+    .right {
+      flex: 1;
+      background: var(--light-bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 80px 40px 40px;
+      position: relative;
+      overflow-y: auto;
+    }
+
+    .logo {
+      width: 120px;
+      margin-bottom: 2rem;
+    }
+
+    .profile-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .profile-avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid white;
+      box-shadow: var(--box-shadow);
+      margin-bottom: 1.5rem;
+    }
+
+    .profile-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .profile-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-light);
+      font-weight: 400;
+    }
+
+    .profile-stats {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 500px;
+      margin-bottom: 3rem;
+      background: var(--card-bg);
+      padding: 1.5rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+    }
+
+    .stat-item {
+      text-align: center;
+      flex: 1;
+    }
+
+    .stat-value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary-accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      font-weight: 500;
+    }
+
+    .profile-form {
+      width: 100%;
+      max-width: 500px;
+      background: var(--card-bg);
+      padding: 2rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--text-medium);
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid rgba(0,0,0,0.1);
+      border-radius: var(--border-radius);
+      background-color: var(--light-bg);
+      font-size: 0.95rem;
+      transition: var(--transition);
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--primary-accent);
+      box-shadow: 0 0 0 3px rgba(58, 134, 255, 0.2);
+    }
+
+    .form-group textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .profile-button {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      margin-bottom: 1rem;
+    }
+
+    .save-button {
+      background: linear-gradient(135deg, var(--primary-accent), var(--secondary-accent));
+      color: white;
+      box-shadow: var(--box-shadow);
+    }
+
+    .save-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    }
+
+    .logout-button {
+      background: transparent;
+      border: 1px solid #FF5A5F;
+      color: #FF5A5F;
+    }
+
+    .logout-button:hover {
+      background: rgba(255, 90, 95, 0.1);
+    }
+
+    .home-button {
+      position: absolute;
+      top: 25px;
+      left: 25px;
+      background: white;
+      border: none;
+      border-radius: var(--border-radius);
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      box-shadow: var(--box-shadow);
+    }
+
+    .home-button:hover {
+      transform: translateY(-2px);
+      background-color: var(--primary-accent);
+      color: white;
+    }
+
+    .home-button::before {
+      content: "←";
+      font-size: 1rem;
+    }
+
+    @media (max-width: 1024px) {
+      .right {
+        padding: 80px 30px 30px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+      
+      .left {
+        height: 300px;
+      }
+      
+      .right {
+        padding: 70px 20px 20px;
+      }
+      
+      .profile-stats {
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+      
+      .stat-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      
+      .stat-value {
+        margin-bottom: 0;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .right {
+        padding: 70px 15px 15px;
+      }
+      
+      .profile-form {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="left"></div>
+    <div class="right">
+      <button onclick="window.location.href='index.html'" class="home-button">HOME</button>
+      
+      <img src="logo.png" alt="PLAY DUAL Logo" class="logo">
+      
+      <div class="profile-header">
+        <img src="avatar.jpg" alt="User Avatar" class="profile-avatar">
+        <h2 class="profile-title">Alex Johnson</h2>
+        <p class="profile-subtitle">Strategic Analyst | Member since Jan 2023</p>
+      </div>
+
+      <div class="profile-stats">
+        <div class="stat-item">
+          <div class="stat-value">24</div>
+          <div class="stat-label">Simulations</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">1,850</div>
+          <div class="stat-label">Points</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">#35</div>
+          <div class="stat-label">Global Rank</div>
+        </div>
+      </div>
+
+      <form class="profile-form" id="profileForm">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" value="AlexJohnson">
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" value="alex.johnson@example.com">
+        </div>
+
+        <div class="form-group">
+          <label for="bio">Professional Bio</label>
+          <textarea id="bio">Strategic analyst specializing in resource management simulations. Focused on developing decision-making frameworks for complex scenarios.</textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="avatar">Update Profile Picture</label>
+          <input type="file" id="avatar">
+        </div>
+
+        <button type="submit" class="profile-button save-button">SAVE CHANGES</button>
+        <button type="button" class="profile-button logout-button" id="logoutButton">LOGOUT</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Verificar autenticación al cargar
+    document.addEventListener('DOMContentLoaded', function() {
+      const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+      const logoutButton = document.getElementById('logoutButton');
+      
+      if (!isLoggedIn) {
+        window.location.href = 'login.html';
+      }
+      
+      // Manejar logout
+      logoutButton.addEventListener('click', function() {
+        if(confirm('Are you sure you want to logout?')) {
+          localStorage.removeItem('isLoggedIn');
+          window.location.href = 'index.html';
+        }
+      });
+      
+      // Manejar envío de formulario
+      document.getElementById('profileForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Profile updated successfully!');
+      });
+    });
+  </script>
+</body>
+</html>
